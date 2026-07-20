@@ -8,7 +8,7 @@ A market news app showing a "Top 10 Daily" list of market news articles. Three p
 
 - `backend/` — Express + TypeScript + Prisma API (`GET /api/news`), port 4000. See `backend/CLAUDE.md`.
 - `frontend/` — Vite + React 19 + TypeScript, port 5173. See `frontend/CLAUDE.md`.
-- Postgres 17 — single `news_articles` table. Articles are inserted manually (Prisma Studio or `psql`); there is no ingestion pipeline.
+- Postgres 17 — single `news_articles` table. Articles are ingested by a backend poller that fetches Finnhub news every 60s (needs `FINNHUB_TOKEN` in `backend/.env` locally / Railway variables in prod), deduped by the unique `finnhubId` column.
 
 Design specs and implementation plans live in `docs/superpowers/`.
 

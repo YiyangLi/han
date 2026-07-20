@@ -56,3 +56,18 @@ export async function fetchAndStoreNews(): Promise<void> {
     console.error('News poll failed:', err);
   }
 }
+
+export function startNewsPoller(): void {
+  let inFlight = false;
+  const run = async () => {
+    if (inFlight) return;
+    inFlight = true;
+    try {
+      await fetchAndStoreNews();
+    } finally {
+      inFlight = false;
+    }
+  };
+  void run();
+  setInterval(run, POLL_INTERVAL_MS);
+}

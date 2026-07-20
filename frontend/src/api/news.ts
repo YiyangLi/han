@@ -20,10 +20,14 @@ const NEGATIVE_KEYWORDS = [
   'warns', 'bear market', 'tension', 'tensions', 'weaker', 'disappoint', 'disappoints',
 ];
 
+function matchesKeyword(text: string, keyword: string): boolean {
+  return new RegExp(`\\b${keyword}\\b`, 'i').test(text);
+}
+
 export function deriveSentiment(headline: string, summary: string): Sentiment {
-  const text = `${headline} ${summary}`.toLowerCase();
-  const hasPositive = POSITIVE_KEYWORDS.some((kw) => text.includes(kw));
-  const hasNegative = NEGATIVE_KEYWORDS.some((kw) => text.includes(kw));
+  const text = `${headline} ${summary}`;
+  const hasPositive = POSITIVE_KEYWORDS.some((kw) => matchesKeyword(text, kw));
+  const hasNegative = NEGATIVE_KEYWORDS.some((kw) => matchesKeyword(text, kw));
   if (hasPositive && !hasNegative) return 'positive';
   if (hasNegative && !hasPositive) return 'negative';
   return 'neutral';

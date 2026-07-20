@@ -39,6 +39,18 @@ describe('GET /api/news', () => {
     expect(res.body).toEqual(articles);
   });
 
+  it('queries the top 10 articles ordered by publishedAt then id, both descending', async () => {
+    (prisma.newsArticle.findMany as any).mockResolvedValue([]);
+
+    const app = createApp();
+    await request(app).get('/api/news');
+
+    expect(prisma.newsArticle.findMany).toHaveBeenCalledWith({
+      orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],
+      take: 10,
+    });
+  });
+
   it('returns 500 when the database call fails', async () => {
     (prisma.newsArticle.findMany as any).mockRejectedValue(new Error('DB down'));
 

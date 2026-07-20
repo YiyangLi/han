@@ -6,7 +6,8 @@ export const newsRouter = Router();
 newsRouter.get('/', async (_req, res) => {
   try {
     const articles = await prisma.newsArticle.findMany({
-      orderBy: { publishedAt: 'desc' },
+      orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],
+      take: 10,
     });
     res.json(articles);
   } catch (err) {

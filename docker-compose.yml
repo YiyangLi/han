@@ -12,5 +12,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  backend:
+    build: ./backend
+    container_name: news-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://news:news@postgres:5432/news?schema=public
+      PORT: "4000"
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:

@@ -24,6 +24,8 @@ describe('GET /api/news', () => {
         headline: 'Fed holds rates steady',
         source: 'Reuters',
         url: 'https://example.com/1',
+        category: 'Markets',
+        summary: 'Test summary.',
         publishedAt: '2026-07-19T00:00:00.000Z',
         createdAt: '2026-07-19T00:00:00.000Z',
       },

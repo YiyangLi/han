@@ -3,6 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { newsRouter } from './routes/news';
+import { startNewsPoller } from './poller';
 
 export function createApp() {
   const app = express();
@@ -39,4 +40,10 @@ if (require.main === module) {
   app.listen(port, () => {
     console.log(`Backend listening on port ${port}`);
   });
+
+  if (process.env.FINNHUB_TOKEN) {
+    startNewsPoller();
+  } else {
+    console.warn('FINNHUB_TOKEN not set; news poller disabled');
+  }
 }

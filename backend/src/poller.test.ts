@@ -94,9 +94,35 @@ describe('fetchAndStoreNews', () => {
       { ...businessArticle, id: undefined },
       { ...businessArticle, headline: undefined },
       { ...businessArticle, datetime: undefined },
+      { ...businessArticle, source: undefined },
+      { ...businessArticle, summary: undefined },
+      { ...businessArticle, url: undefined },
     ]);
     await fetchAndStoreNews();
     expect(createMany).not.toHaveBeenCalled();
+  });
+
+  it('skips articles with null required fields instead of poisoning the whole batch', async () => {
+    mockFetch([
+      businessArticle,
+      { ...businessArticle, id: 999, summary: null },
+      null,
+    ]);
+    await fetchAndStoreNews();
+    expect(createMany).toHaveBeenCalledWith({
+      data: [
+        {
+          finnhubId: 8241686,
+          headline: 'Brent oil tops $90',
+          source: 'Reuters',
+          url: 'https://example.com/oil',
+          category: 'business',
+          summary: 'Oil climbs as strikes expand.',
+          publishedAt: new Date(1784525896 * 1000),
+        },
+      ],
+      skipDuplicates: true,
+    });
   });
 
   it('does nothing on a non-200 response', async () => {

@@ -29,15 +29,15 @@ export async function fetchAndStoreNews(): Promise<void> {
       return;
     }
     const data = (body as FinnhubArticle[])
-      .filter((a) => a.category !== undefined && KEPT_CATEGORIES.has(a.category))
+      .filter((a) => a != null && a.category != null && KEPT_CATEGORIES.has(a.category))
       .filter(
         (a) =>
-          a.id !== undefined &&
-          a.datetime !== undefined &&
-          a.headline !== undefined &&
-          a.source !== undefined &&
-          a.summary !== undefined &&
-          a.url !== undefined,
+          a.id != null &&
+          a.datetime != null &&
+          a.headline != null &&
+          a.source != null &&
+          a.summary != null &&
+          a.url != null,
       )
       .map((a) => ({
         finnhubId: a.id!,

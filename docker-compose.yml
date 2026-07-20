@@ -17,7 +17,8 @@ services:
     container_name: news-backend
     restart: unless-stopped
     env_file:
-      - ./backend/.env
+      - path: ./backend/.env
+        required: false
     environment:
       DATABASE_URL: postgresql://news:news@postgres:5432/news?schema=public
       PORT: "4000"

@@ -1,11 +1,24 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
 import { newsRouter } from './routes/news';
 
 export function createApp() {
   const app = express();
-  app.use(cors({ origin: 'http://localhost:5173' }));
+  app.use(cors({ origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173' }));
   app.use('/api/news', newsRouter);
+
+  // Present only in the production image, where the Dockerfile copies the
+  // built frontend in as ./public — local dev serves the frontend separately
+  // via the Vite dev server, so this is a no-op there.
+  const publicDir = path.join(__dirname, '../public');
+  if (fs.existsSync(publicDir)) {
+    app.use(express.static(publicDir));
+    app.get('*', (_req, res) => {
+      res.sendFile(path.join(publicDir, 'index.html'));
+    });
+  }
 
   // Terminal error-handling middleware: a safety net for any error that
   // wasn't already caught and responded to upstream (e.g. by newsRouter's

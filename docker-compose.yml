@@ -27,5 +27,17 @@ services:
     depends_on:
       - postgres
 
+  frontend:
+    build: ./frontend
+    container_name: news-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:

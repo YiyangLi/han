@@ -2,6 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Prisma's engine needs OpenSSL present at generate-time; node:20-alpine (Alpine 3.23+) no longer bundles it
 RUN apk add --no-cache openssl
 
 COPY package*.json ./

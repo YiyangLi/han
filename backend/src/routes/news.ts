@@ -10,6 +10,7 @@ newsRouter.get('/', async (_req, res) => {
     });
     res.json(articles);
   } catch (err) {
+    console.error('Failed to fetch news:', err);
     res.status(500).json({ error: 'Failed to fetch news' });
   }
 });

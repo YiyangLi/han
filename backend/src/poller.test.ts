@@ -77,16 +77,7 @@ describe('fetchAndStoreNews', () => {
           category: 'business',
           summary: 'Oil climbs as strikes expand.',
           publishedAt: new Date(1784525896 * 1000),
-        },
-        {
-          finnhubId: 8241580,
-          headline: 'Stocks are working beyond tech',
-          source: 'CNBC',
-          url: 'https://example.com/stocks',
-          category: 'top news',
-          summary: 'Opportunities outside tech.',
-          publishedAt: new Date(1784507632 * 1000),
-        },
+        }
       ],
       skipDuplicates: true,
     });

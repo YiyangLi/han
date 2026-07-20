@@ -1,7 +1,7 @@
 import { prisma } from './db';
 
 const FINNHUB_NEWS_URL = 'https://finnhub.io/api/v1/news?category=business';
-const KEPT_CATEGORIES = new Set(['business', 'top news']);
+const KEPT_CATEGORIES = new Set(['business']);
 const POLL_INTERVAL_MS = 60_000;
 
 interface FinnhubArticle {
